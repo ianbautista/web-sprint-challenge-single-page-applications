@@ -1,114 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import NavBar from "./NavBar";
-import { Switch, Route, useHistory } from "react-router-dom";
-import axios from "axios";
-import formSchema from "./formSchema";
-import * as yup from "yup";
+import { Link } from "react-router-dom";
 
-const initialFormValues = {
-	// text
-	name: "",
-	// dropdown
-	size: "",
-	// radio
-	sauce: "",
-	// checkbox
-	toppings: {
-		pepperoni: false,
-		sausage: false,
-		canadianBacon: false,
-		spicyItalianSausage: false,
-		grilledChicken: false,
-		onions: false,
-		greenPepper: false,
-		dicedTomatos: false,
-		blackOlives: false,
-		roastedGarlic: false,
-		artichokeHearts: false,
-		threeCheese: false,
-		pineapple: false,
-		mushroom: false,
-	},
-	// textbox for special instructions
-	instructions: "",
-};
+export default function PizzaForm(props) {
+	const {
+		checkboxChange,
+		inputChange,
+		disabled,
+		formSubmit,
+		formValues,
+		errorState,
+		validateChange,
+	} = props;
 
-const initialErrorValues = {
-	name: "",
-	size: "",
-};
-
-const initialOrders = [];
-const initialDisabled = true;
-
-export default function PizzaForm() {
-	const [orders, setOrders] = useState(initialOrders);
-	const [formValues, setFormValues] = useState(initialFormValues);
-	const [errorState, setErrorState] = useState(initialErrorValues);
-	const [disabled, setDisabled] = useState(initialDisabled);
-
-	useEffect(() => {
-		formSchema.isValid(formValues).then((valid) => {
-			setDisabled(!valid);
-		});
-	}, [formValues]);
-
-	const validateChange = (event) => {
-		yup
-			.reach(formSchema, event.target.name)
-			.validate(event.target.value)
-			.then(() => {
-				setErrorState({
-					...errorState,
-					[event.target.name]: "",
-				});
-			})
-			.catch((error) => {
-				setErrorState({
-					...errorState,
-					[event.target.name]: error.errorState,
-				});
-			});
-	};
-
-	const formSubmit = (event) => {
+	const onSubmit = (event) => {
 		event.preventDefault();
-		axios
-			.post("https://reqres.in/api/users", formValues)
-			.then((response) => {
-				setOrders([...orders, response.data]);
-				console.log("success", orders);
-
-				setFormValues(initialFormValues);
-			})
-			.catch((error) => {
-				debugger;
-				console.log(error);
-				alert(`Oops! We have a problem my friend. ${error}`);
-			});
+		formSubmit();
 	};
 
-	const inputChange = (event) => {
-		event.persist();
+	const onInputChange = (event) => {
+		const { name, value } = event.target;
+		inputChange(name, value);
+	};
 
-		const newFormData = {
-			...formValues,
-			[event.target.name]:
-				event.target.type === "checkbox" ? event.target.checked : event.target.value,
-		};
-		validateChange(event);
-		setFormValues(newFormData);
+	const onValidateChange = (evt) => {
+		const { name, value } = evt.target;
+		validateChange(name, value);
 	};
 
 	const onCheckboxChange = (event) => {
 		const { name, checked } = event.target;
-		setFormValues({
-			...formValues,
-			toppings: {
-				...formValues.toppings,
-				[name]: checked,
-			},
-		});
+		checkboxChange(name, checked);
 	};
 
 	return (
@@ -124,7 +46,7 @@ export default function PizzaForm() {
 					/>
 				</div>
 				<h3>Build Your Own Pizza</h3>
-				<form onSubmit={formSubmit}>
+				<form onSubmit={onSubmit}>
 					<label htmlFor="name">
 						Name:&nbsp;&nbsp;
 						<input
@@ -134,14 +56,20 @@ export default function PizzaForm() {
 							placeholder="Your name here"
 							maxLength="40"
 							value={formValues.name}
-							onChange={inputChange}
+							onChange={onValidateChange}
 						/>
 					</label>
+					<div>{errorState.name}</div>
 					<br />
 					<label htmlFor="size">
 						{" "}
 						Choice of Size
-						<select name="size" id="sizeInput" value={formValues.size} onChange={inputChange}>
+						<select
+							name="size"
+							id="sizeInput"
+							value={formValues.size}
+							onChange={onInputChange}
+						>
 							<option value="" selected disabled>
 								- select size -
 							</option>
@@ -170,98 +98,98 @@ export default function PizzaForm() {
 						<input
 							name="pepperoni"
 							type="checkbox"
-							checked={formValues.pepperoni}
+							checked={formValues.toppings.pepperoni === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="pepperoni">Pepperoni</label> <br />
 						<input
 							name="sausage"
 							type="checkbox"
-							checked={formValues.sausage}
+							checked={formValues.toppings.sausage === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="sausage">Sausage</label> <br />
 						<input
 							name="canadianBacon"
 							type="checkbox"
-							checked={formValues.canadianBacon}
+							checked={formValues.toppings.canadianBacon === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="canadianBacon">Canadian Bacon</label> <br />
 						<input
 							name="spicyItalianSausage"
 							type="checkbox"
-							checked={formValues.spicyItalianSausage}
+							checked={formValues.toppings.spicyItalianSausage === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="spicyItalianSausage">Spicy Italian Sausage</label> <br />
 						<input
 							name="grilledChicken"
 							type="checkbox"
-							checked={formValues.grilledChicken}
+							checked={formValues.toppings.grilledChicken === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="grilledChicken">Grilled Chicken</label> <br />
 						<input
 							name="onions"
 							type="checkbox"
-							checked={formValues.onions}
+							checked={formValues.toppings.onions === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="onions">Onions</label> <br />
 						<input
 							name="greenPepper"
 							type="checkbox"
-							checked={formValues.greenPepper}
+							checked={formValues.toppings.greenPepper === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="greenPepper">Green Pepper</label> <br />
 						<input
 							name="dicedTomatos"
 							type="checkbox"
-							checked={formValues.dicedTomatos}
+							checked={formValues.toppings.dicedTomatos === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="dicedTomatos">Diced Tomatos</label> <br />
 						<input
 							name="blackOlives"
 							type="checkbox"
-							checked={formValues.blackOlives}
+							checked={formValues.toppings.blackOlives === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="blackOlives">Black Olives</label> <br />
 						<input
 							name="roastedGarlic"
 							type="checkbox"
-							checked={formValues.roastedGarlic}
+							checked={formValues.toppings.roastedGarlic === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="roastedGarlic">Roasted Garlic</label> <br />
 						<input
 							name="artichokeHearts"
 							type="checkbox"
-							checked={formValues.artichokeHearts}
+							checked={formValues.toppings.artichokeHearts === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="artichokeHearts">Artichoke Hearts</label> <br />
 						<input
 							name="threeCheese"
 							type="checkbox"
-							checked={formValues.threeCheese}
+							checked={formValues.toppings.threeCheese === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="threeCheese">Three Cheese</label> <br />
 						<input
 							name="pineapple"
 							type="checkbox"
-							checked={formValues.pineapple}
+							checked={formValues.toppings.pineapple === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="pineapple">Pineapple</label> <br />
 						<input
 							name="mushroom"
 							type="checkbox"
-							checked={formValues.mushroom}
+							checked={formValues.toppings.mushroom === true}
 							onChange={onCheckboxChange}
 						/>
 						<label htmlFor="mushroom">Mushroom</label> <br />
@@ -279,9 +207,11 @@ export default function PizzaForm() {
 						/>
 					</label>{" "}
 					<br />
-					<button name="submit" type="submit" disabled={disabled}>
-						Add to Order
-					</button>
+					<Link id="confirmation" to="/confirmation">
+						<button name="submit" type="submit" disabled={disabled}>
+							Add to Order
+						</button>
+					</Link>
 				</form>
 			</div>
 		</>
