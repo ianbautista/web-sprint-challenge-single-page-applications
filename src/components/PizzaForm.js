@@ -71,6 +71,46 @@ export default function PizzaForm() {
 			});
 	};
 
+	const formSubmit = (event) => {
+		event.preventDefault();
+		axios
+			.post("https://reqres.in/api/users", formValues)
+			.then((response) => {
+				setOrders([...orders, response.data]);
+				console.log("success", orders);
+
+				setFormValues(initialFormValues);
+			})
+			.catch((error) => {
+				debugger;
+				console.log(error);
+				alert(`Oops! We have a problem my friend. ${error}`);
+			});
+	};
+
+	const inputChange = (event) => {
+		event.persist();
+
+		const newFormData = {
+			...formValues,
+			[event.target.name]:
+				event.target.type === "checkbox" ? event.target.checked : event.target.value,
+		};
+		validateChange(event);
+		setFormValues(newFormData);
+	};
+
+	const onCheckboxChange = (event) => {
+		const { name, checked } = event.target;
+		setFormValues({
+			...formValues,
+			toppings: {
+				...formValues.toppings,
+				[name]: checked,
+			},
+		});
+	};
+
 	return (
 		<>
 			<NavBar />
