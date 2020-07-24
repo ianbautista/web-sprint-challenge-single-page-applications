@@ -9,7 +9,17 @@ export default function Confirmation(props) {
 	return (
 		<div className="App container">
 			<h2> Thank you for your order! </h2>
-			<h3>Hi {details.name}! See your order below:</h3>
+			<h3>Hi Christian Bautista! See your order below:</h3>
+			<p>Name: Christian Bautista</p>
+			<p>Sauce: Original Red</p>
+			<div>
+				Toppings: pepperoni, sausage, canadianBacon, spicyItalianSausage, grilledChicken,
+				onions, greenPepper, dicedTomatos, blackOlives, roastedGarlic, artichokeHearts,
+				threeCheese, pineapple, mushroom,
+			</div>
+			<p> Gluten free? yes </p>
+			<p>Instructions: test</p> <br />
+			{/* <h3>Hi {details.name}! See your order below:</h3>
 			<p>Name: {details.name}</p>
 			<p>Sauce: {details.sauce}</p>
 			{!!details.toppings && !!details.toppings.length && (
@@ -22,7 +32,8 @@ export default function Confirmation(props) {
 					</ul>
 				</div>
 			)}
-			<p>Instructions: {details.instructions}</p> <br />
+			<p> Gluten free? {details.gluten} </p>
+			<p>Instructions: {details.instructions}</p> <br /> */}
 			<Link id="navHome" to="/">
 				<h2>Home</h2>
 			</Link>

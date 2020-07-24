@@ -100,6 +100,7 @@ const App = () => {
 			toppings: Object.keys(formValues.toppings).filter(
 				(topping) => formValues.toppings[topping],
 			),
+			gluten: formValues.gluten,
 			instructions: formValues.instructions,
 		};
 
@@ -168,9 +169,7 @@ const App = () => {
 						/>
 					</Route>
 					<Route path="/confirmation">
-						{orders.map((order) => {
-							return <Confirmation details={order} />;
-						})}
+						<Confirmation details={orders} />;
 					</Route>
 				</Switch>
 			</div>
