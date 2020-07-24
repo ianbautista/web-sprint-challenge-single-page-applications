@@ -33,7 +33,13 @@ export default function PizzaForm() {
 	return (
 		<div className="pizzaFormDiv">
 			<h2> Build Your Own Pizza </h2>
-			<img alt="pizza" />
+			<div className="formImgDiv">
+				{/* <img
+					id="pizzaImgForm"
+					src="http://www.thepizzadavinci.com/facebookimages/Pizza3.jpg"
+					alt="pizza"
+				/> */}
+			</div>
 			<h3>Build Your Own Pizza</h3>
 			<form action="">
 				<label htmlFor="name">
@@ -42,7 +48,7 @@ export default function PizzaForm() {
 						id="nameInput"
 						name="name"
 						type="text"
-						placeholder="Your last name here"
+						placeholder="Your name here"
 						maxLength="40"
 					/>
 				</label>
@@ -76,17 +82,48 @@ export default function PizzaForm() {
 				<br />
 				<div className="toppingsDiv">
 					<h4>Add Toppings</h4>
-					<label htmlFor="pepperoni">Pepperoni</label>
 					<input name="pepperoni" type="checkbox" />
+					<label htmlFor="pepperoni">Pepperoni</label> <br />
+					<input name="sausage" type="checkbox" />
+					<label htmlFor="sausage">Sausage</label> <br />
+					<input name="canadianBacon" type="checkbox" />
+					<label htmlFor="canadianBacon">Canadian Bacon</label> <br />
+					<input name="spicyItalianSausage" type="checkbox" />
+					<label htmlFor="spicyItalianSausage">Spicy Italian Sausage</label> <br />
+					<input name="grilledChicken" type="checkbox" />
+					<label htmlFor="grilledChicken">Grilled Chicken</label> <br />
+					<input name="onions" type="checkbox" />
+					<label htmlFor="onions">Onions</label> <br />
+					<input name="greenPepper" type="checkbox" />
+					<label htmlFor="greenPepper">Green Pepper</label> <br />
+					<input name="dicedTomatos" type="checkbox" />
+					<label htmlFor="dicedTomatos">Diced Tomatos</label> <br />
+					<input name="blackOlives" type="checkbox" />
+					<label htmlFor="blackOlives">Black Olives</label> <br />
+					<input name="roastedGarlic" type="checkbox" />
+					<label htmlFor="roastedGarlic">Roasted Garlic</label> <br />
+					<input name="artichokeHearts" type="checkbox" />
+					<label htmlFor="artichokeHearts">Artichoke Hearts</label> <br />
+					<input name="threeCheese" type="checkbox" />
+					<label htmlFor="threeCheese">Three Cheese</label> <br />
+					<input name="pineapple" type="checkbox" />
+					<label htmlFor="pineapple">Pineapple</label> <br />
+					<input name="mushroom" type="checkbox" />
+					<label htmlFor="mushroom">Mushroom</label> <br />
 				</div>
+				<label htmlFor="instructions">
+					Special Instructions&nbsp;&nbsp;
+					<input
+						id="instructions"
+						name="instructions"
+						type="text"
+						placeholder="Anything else you'd like to add?"
+						maxLength="1000"
+					/>
+				</label>
 			</form>
 
-			<Link id="navHome" to="/">
-				Home
-			</Link>
-			<Link id="navHelp" to="/help">
-				Help
-			</Link>
+			<button>Add to Order</button>
 		</div>
 	);
 }
