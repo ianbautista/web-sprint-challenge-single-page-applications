@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import { Switch, Route, useHistory } from "react-router-dom";
 import axios from "axios";
+import formSchema from "./formSchema";
+import * as yup from "yup";
 
 const initialFormValues = {
 	// text
@@ -42,8 +44,32 @@ const initialDisabled = true;
 export default function PizzaForm() {
 	const [orders, setOrders] = useState(initialOrders);
 	const [formValues, setFormValues] = useState(initialFormValues);
-	const [efforState, setErrorState] = useState(initialErrorValues);
+	const [errorState, setErrorState] = useState(initialErrorValues);
 	const [disabled, setDisabled] = useState(initialDisabled);
+
+	useEffect(() => {
+		formSchema.isValid(formValues).then((valid) => {
+			setDisabled(!valid);
+		});
+	}, [formValues]);
+
+	const validateChange = (event) => {
+		yup
+			.reach(formSchema, event.target.name)
+			.validate(event.target.value)
+			.then(() => {
+				setErrorState({
+					...errorState,
+					[event.target.name]: "",
+				});
+			})
+			.catch((error) => {
+				setErrorState({
+					...errorState,
+					[event.target.name]: error.errorState,
+				});
+			});
+	};
 
 	return (
 		<>
