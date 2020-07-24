@@ -279,7 +279,7 @@ export default function PizzaForm() {
 						/>
 					</label>{" "}
 					<br />
-					<button type="submit" disabled={disabled}>
+					<button name="submit" type="submit" disabled={disabled}>
 						Add to Order
 					</button>
 				</form>
