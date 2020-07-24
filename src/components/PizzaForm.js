@@ -1,35 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
-import { Link } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
+import axios from "axios";
+
+const initialFormValues = {
+	// text
+	name: "",
+	// dropdown
+	size: "",
+	// radio
+	sauce: "",
+	// checkbox
+	toppings: {
+		pepperoni: false,
+		sausage: false,
+		canadianBacon: false,
+		spicyItalianSausage: false,
+		grilledChicken: false,
+		onions: false,
+		greenPepper: false,
+		dicedTomatos: false,
+		blackOlives: false,
+		roastedGarlic: false,
+		artichokeHearts: false,
+		threeCheese: false,
+		pineapple: false,
+		mushroom: false,
+	},
+	// textbox for special instructions
+	instructions: "",
+};
+
+const initialErrorValues = {
+	name: "",
+	size: "",
+};
+
+const initialOrders = [];
+const initialDisabled = true;
 
 export default function PizzaForm() {
-	const initialFormValues = {
-		// text
-		name: "",
-		// dropdown
-		size: "",
-		// radio
-		sauce: "",
-		// checkbox
-		toppings: {
-			pepperoni: false,
-			sausage: false,
-			canadianBacon: false,
-			spicyItalianSausage: false,
-			grilledChicken: false,
-			onions: false,
-			greenPepper: false,
-			dicedTomatos: false,
-			blackOlives: false,
-			roastedGarlic: false,
-			artichokeHearts: false,
-			threeCheese: false,
-			pineapple: false,
-			mushroom: false,
-		},
-		// textbox for special instructions
-		instructions: "",
-	};
+	const [orders, setOrders] = useState(initialOrders);
+	const [formValues, setFormValues] = useState(initialFormValues);
+	const [efforState, setErrorState] = useState(initialErrorValues);
+	const [disabled, setDisabled] = useState(initialDisabled);
 
 	return (
 		<>
