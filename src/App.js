@@ -33,6 +33,8 @@ const initialFormValues = {
 		pineapple: false,
 		mushroom: false,
 	},
+	// STRETCH Gluten
+	gluten: "",
 	// textbox for special instructions
 	instructions: "",
 };
@@ -76,19 +78,19 @@ const App = () => {
 		});
 	};
 
-	// const getOrders = () => {
-	// 	axios
-	// 		.get("https://reqres.in/api/users")
-	// 		.then((response) => {
-	// 			console.log(response);
-	// 			setOrders(response.data.data);
-	// 		})
-	// 		.catch((error) => {
-	// 			debugger;
-	// 			console.log(error);
-	// 			alert(`Oops! We have a problem my friend. ${error}`);
-	// 		});
-	// };
+	const getOrders = () => {
+		axios
+			.get("https://reqres.in/api/users")
+			.then((response) => {
+				console.log(response);
+				setOrders(response.data.data);
+			})
+			.catch((error) => {
+				debugger;
+				console.log(error);
+				alert(`Oops! We have a problem my friend. ${error}`);
+			});
+	};
 
 	const formSubmit = () => {
 		const newOrder = {
@@ -139,9 +141,9 @@ const App = () => {
 		});
 	}, [formValues]);
 
-	// useEffect(() => {
-	// 	getOrders();
-	// }, []);
+	useEffect(() => {
+		getOrders();
+	}, []);
 
 	// END OF NEW CODE
 	return (
@@ -166,7 +168,9 @@ const App = () => {
 						/>
 					</Route>
 					<Route path="/confirmation">
-						<Confirmation details={orders} />;
+						{orders.map((order) => {
+							return <Confirmation details={order} />;
+						})}
 					</Route>
 				</Switch>
 			</div>

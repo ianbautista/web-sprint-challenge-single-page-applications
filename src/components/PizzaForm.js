@@ -70,7 +70,7 @@ export default function PizzaForm(props) {
 							value={formValues.size}
 							onChange={onInputChange}
 						>
-							<option value="" selected disabled>
+							<option value="" defaultValue disabled>
 								- select size -
 							</option>
 							<option value="small">small</option>
@@ -194,6 +194,28 @@ export default function PizzaForm(props) {
 						/>
 						<label htmlFor="mushroom">Mushroom</label> <br />
 					</div>
+					<label>
+						Gluten Free?
+						<label> Yes </label>
+						<input
+							type="radio"
+							name="gluten"
+							value="glutenfree"
+							id="glutenfreeInput"
+							onChange={onInputChange}
+						/>
+					</label>
+					<label>
+						<label>No</label>
+						<input
+							type="radio"
+							name="gluten"
+							id="glutennotfreeInput"
+							value="glutennotfree"
+							onChange={onInputChange}
+						/>
+					</label>{" "}
+					<br />
 					<label htmlFor="instructions">
 						Special Instructions&nbsp;&nbsp;
 						<input
@@ -203,7 +225,7 @@ export default function PizzaForm(props) {
 							placeholder="Anything else you'd like to add?"
 							maxLength="1000"
 							value={formValues.instructions}
-							onChange={inputChange}
+							onChange={onInputChange}
 						/>
 					</label>{" "}
 					<br />
